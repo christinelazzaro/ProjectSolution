@@ -15,3 +15,12 @@ UNION
 ORDER BY Total DESC 
 LIMIT 1;
 
+### Question 3:  Which fitness area (i.e., tag) has the highest number of completed reservations for February? ###
+SELECT class_tag FitArea, count(*) CompleteRes FROM clubready_reservations CRRes
+	WHERE CRRes.reserved_for BETWEEN '2018-02-01' AND '2018-02-28'
+UNION
+	SELECT class_tag FitArea, count(*) CompleteRes FROM mindbody_reservations MBRes
+	WHERE MBRes.class_time_at BETWEEN '2018-02-01' AND '2018-02-28'
+GROUP BY FitArea	
+ORDER BY CompleteRes DESC
+LIMIT 1;
