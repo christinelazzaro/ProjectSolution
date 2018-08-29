@@ -24,3 +24,25 @@ UNION
 GROUP BY FitArea	
 ORDER BY CompleteRes DESC
 LIMIT 1;
+
+### Question 4:  How many members completed at least 1 reservation and had no more than 1 cancelled reservation in January? ###
+SELECT
+(WITH RECURSIVE CRRes (CRq4) AS
+(
+SELECT sum(CASE canceled WHEN "t" THEN 1 ELSE 0 END) Total 
+	FROM clubready_reservations
+   WHERE reserved_for BETWEEN '2018-01-01' AND '2018-01-31'
+  GROUP BY member_id
+    HAVING Total <= 1
+)   
+SELECT count(CRq4) Total FROM CRRes)
++
+(WITH RECURSIVE MBRes (MBq4) AS
+(
+SELECT sum(CASE WHEN canceled_at != "NULL" THEN 1 ELSE 0 END) Total 
+	FROM mindbody_reservations
+    WHERE class_time_at BETWEEN '2018-01-01' AND '2018-01-31'
+    GROUP BY member_id
+    HAVING Total <= 1
+)
+SELECT count(MBq4) Total FROM MBRes)
