@@ -59,10 +59,42 @@ SELECT count(MBq4) Total FROM MBRes) MemberCount;
 
 ### QUESTION 5:  At what time of day do most users book classes? Attend classes? (Morning = 7-11 AM, Afternoon = 12-4 PM, Evening = 5-10 PM) ###
 ##WHEN BOOKED##
-
+SELECT
+	CASE WHEN 
+    HOUR(reserved_at) >='7' AND HOUR(reserved_at) < '12' THEN 'Morning'
+    WHEN HOUR(reserved_at) >='12' AND HOUR(reserved_at) < '17' THEN 'Afternoon'
+    WHEN HOUR(reserved_at) >='17' AND HOUR(reserved_at) < '23' THEN 'Evening'
+    ELSE 'Other'
+    END Time_of_Day,
+COUNT(reserved_at) NumBookings
+FROM mindbody_reservations
+	GROUP BY(Time_of_Day)
+    ORDER BY(NumBookings) DESC
+    LIMIT 1;
 
 ##WHEN ATTENDED##
-
+SELECT
+	CASE WHEN 
+    HOUR(reserved_for) >='7' AND HOUR(reserved_for) < '12' THEN 'Morning'
+    WHEN HOUR(reserved_for) >='12' AND HOUR(reserved_for) < '17' THEN 'Afternoon'
+    WHEN HOUR(reserved_for) >='17' AND HOUR(reserved_for) < '23' THEN 'Evening'
+    ELSE 'Other'
+    END Time_of_Day,
+COUNT(reserved_for) NumBookings
+FROM clubready_reservations
+GROUP BY(Time_of_Day)
+UNION SELECT
+	CASE WHEN 
+    HOUR(class_time_at) >='7' AND HOUR(class_time_at) < '12' THEN 'Morning'
+    WHEN HOUR(class_time_at) >='12' AND HOUR(class_time_at) < '17' THEN 'Afternoon'
+    WHEN HOUR(class_time_at) >='17' AND HOUR(class_time_at) < '23' THEN 'Evening'
+    ELSE 'Other'
+    END Time_of_Day,
+COUNT(class_time_at) NumBookings
+FROM mindbody_reservations
+GROUP BY(Time_of_Day)
+ORDER BY(NumBookings) DESC
+LIMIT 2
 
 
 
@@ -70,3 +102,5 @@ SELECT count(MBq4) Total FROM MBRes) MemberCount;
 
 
 
+
+### QUESTION 7:  Write a query that unions the `mindbody_reservations` table and `clubready_reservations` table as cleanly as possible. ###
