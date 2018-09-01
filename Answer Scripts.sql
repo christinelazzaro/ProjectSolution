@@ -94,13 +94,18 @@ COUNT(class_time_at) NumBookings
 FROM mindbody_reservations
 GROUP BY(Time_of_Day)
 ORDER BY(NumBookings) DESC
-LIMIT 2
-
+LIMIT 2;
 
 
 ### QUESTION 6:  How many confirmed completed reservations did the member (ID) with the most reserved classes in February have? ###
-
-
-
+SELECT CONCAT('CRRes',member_id) Member, COUNT(*) RsvClasses, COUNT(signed_in_at) ConfCompRes FROM clubready_reservations CRREs
+	WHERE reserved_for >= '2018-02-01' AND reserved_for < '2018-03-01'
+    GROUP BY member_id
+UNION
+SELECT CONCAT('MBRes',member_id) Member, COUNT(*) RsvClasses, COUNT(checked_in_at) ConfCompRes FROM mindbody_reservations MBREs
+	WHERE class_time_at >= '2018-02-01' AND class_time_at < '2018-03-01'
+    GROUP BY member_id
+ORDER BY RsvClasses DESC
+LIMIT 3;
 
 ### QUESTION 7:  Write a query that unions the `mindbody_reservations` table and `clubready_reservations` table as cleanly as possible. ###
