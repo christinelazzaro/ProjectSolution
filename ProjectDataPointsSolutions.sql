@@ -33,6 +33,7 @@ LIMIT 1;
 
 
 ### QUESTION 4:  How many members completed at least 1 reservation and had no more than 1 cancelled reservation in January? ###
+## NOTE:  I made the assumption that the Member_id was not a foreign key and instead was a memeber number unique to each vendor table
 SELECT
 (WITH CRRes (CRq4) AS
 (	SELECT sum(CASE canceled WHEN "t" THEN 1 ELSE 0 END) Total 
