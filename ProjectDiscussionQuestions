@@ -1,0 +1,26 @@
+### Question 1. What opportunities do you see to improve data storage and standardization for these datasets? ###
+For the purpose of standardization, it would be best to standardize the column names such as, "reserved_for", class_time_at", "signed_in_at", and "checked_in_at".  The data types for each column of the various data sets should also be identical, for example, the "canceled" and "canceled_at" columns.  Capturing the "reserved_at" from all vendors would not only help with standardization but would also help in forecasting.
+
+To simplify queries and save on data storage, a single "reservations" table could be created that will reference the following individual tables for the columns "vendor_id", "studio_id", and "member_id".
+      "vendor" table, which would include at least the vendor name and id for all reservation vendors Peerfit works with
+      "studio" table, which would include at least the studio name, id, address, city, state, zip code and phone number for all studios associated with Peerfit's vendors
+      "member" table, which would include at least the member name, id, address, email, and phone number, associated organization/customer for all Peerfit members
+
+
+### Question 2. What forecasting opportunities do you see with a dataset like this and why? ###      
+All questions brought up in the Project Data Points portion of the Questionnaire would provide valuable data points for forecasting.  In addition to those, knowing when classes are normally booked would be beneficial as well; so, referring to the first discussion question and capturing the "reserved_at" from all reservation vendors would be needed, rather than just one or a few.  
+
+The following are just a few other data points that I would look for on this dataset:
+      1) # of members that completed more than 12, 6, and 3 reservations for the year? --- this would give you "star Peerfit users", and for example, perhaps those users could benefit from some sort of loyalty incentive.
+      2) # of completed reservations by member for the year? --- this would eventually lead you the "frequency" that members use the system, and this data point is one of the most important forecasting assumptions I can think of.
+      3) "star Peerfit users" and "frequency" by vendor --- these would be beneficial when completing vendor negotiations
+      4) Year over Year changes in the number of "star Peerfit users", "frequency", the number of total Peerfit members, and the number of studios could be great determinants of Peerfit growth
+
+
+### Question 3. What other data would you propose we gather to make reporting/forecasting more robust and why? ###        
+To take just a small subset of the endless amount of data that could be gathered for Peerfit forecasts, I would recommend building out this "reservations" table as referred to in the first discussion question.  Each reservation should have a reference to the organization that member is an employee of.  A "customer" or "enterprise organization" table would be needed, and this would give you an abundance of data points for customer negotiations, utilization by customer, Peerfit growth, market reach, etc.
+
+Other directions for reporting and forecasting can include the following:
+      1) A revenue source, so something like "revenue by customer agreement", which can give you revenue by member or "revenue per cap" --- an important forecasting data point when it comes to financials and measuring Peerfit growth
+      2) A more robust market source, which may include something like the total number of fitness studios in any given area, the total number of organizations in a given area, total number of policy holders for a given insurance carrier, etc.
+      3) Peerfit member satisfaction sources, which may include something like dissatisfaction %s or categories. For example, trends on satisfaction data points would be beneficial for program enhancements and optimization, etc.  
