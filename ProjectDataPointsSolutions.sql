@@ -35,23 +35,31 @@ LIMIT 1;
 ### QUESTION 4:  How many members completed at least 1 reservation and had no more than 1 cancelled reservation in January? ###
 ## NOTE:  I made the assumption that the Member_id was not a foreign key and instead was a memeber number unique to each vendor table
 SELECT
-(WITH CRRes (CRq4) AS
-(	SELECT sum(CASE canceled WHEN "t" THEN 1 ELSE 0 END) Total 
-	FROM clubready_reservations
-	WHERE reserved_for >= '2018-01-01' AND reserved_for < '2018-02-01'
-	GROUP BY member_id
-    HAVING Total <= 1
-) 
-SELECT count(CRq4) Total FROM CRRes)
-+
-(WITH MBRes (MBq4) AS
-(	SELECT sum(CASE WHEN canceled_at != "NULL" THEN 1 ELSE 0 END) Total 
-	FROM mindbody_reservations
-    WHERE class_time_at >= '2018-01-01' AND class_time_at < '2018-02-01'
-    GROUP BY member_id	
-    HAVING Total <= 1
+(SELECT 
+	COUNT(DISTINCT CRRes.member_id) numMembers
+FROM 
+	peerfit_reservations.clubready_reservations CRRes
+WHERE 
+	CRRes.reserved_for >= '2018-01-01' AND CRRes.reserved_for < '2018-02-01' AND
+    	CRRes.member_id IN
+		(SELECT CRRes.member_id
+        FROM peerfit_reservations.clubready_reservations CRRes
+        GROUP BY CRRes.member_id
+        HAVING SUM(CASE canceled WHEN 't' THEN 1 ELSE 0 END) <= 1)
 )
-SELECT count(MBq4) Total FROM MBRes) Num_of_Members;
++
+(SELECT
+	COUNT(DISTINCT MBRes.member_id) numMembers
+FROM 
+	peerfit_reservations.mindbody_reservations MBRes
+WHERE 
+	MBRes.class_time_at >= '2018-01-01' AND MBRes.class_time_at < '2018-02-01' AND 
+    MBRes.member_id IN
+		(SELECT MBRes.member_id
+        FROM peerfit_reservations.mindbody_reservations MBRes
+        GROUP BY MBRes.member_id
+        HAVING SUM(CASE WHEN canceled_at IS NOT NULL THEN 1 ELSE 0 END) <= 1)
+) num_of_members
 
 
 ### QUESTION 5:  At what time of day do most users book classes? Attend classes? (Morning = 7-11 AM, Afternoon = 12-4 PM, Evening = 5-10 PM) ###
